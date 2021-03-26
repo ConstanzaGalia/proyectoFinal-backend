@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const cors = require('cors');
+const routeProducts = require('./routes/products');
 
 //Aqui van las rutas
 
@@ -27,7 +28,7 @@ app.use(express.urlencoded());
 
 
 //importación de rutas
-
+app.use('/api/products', routeProducts);
 
 
 //puerto y arranque del servidor
