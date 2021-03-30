@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const cors = require('cors');
+const routeUsers = require('./routes/users');
+const routeAuth = require('./routes/auth');
 
 //Aqui van las rutas
 
@@ -22,12 +24,13 @@ mongoose.connect(
 );
 
 //Habilitación express.json y urlencoded
-app.use(express.json({ extended: true }));
+app.use(express.json({ limit:'50mb', extended: true }));
 app.use(express.urlencoded());
 
 
 //importación de rutas
-
+app.use('/api/usuarios', routeUsers);
+app.use('/api/auth', routeAuth);
 
 
 //puerto y arranque del servidor
