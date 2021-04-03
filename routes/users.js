@@ -19,7 +19,6 @@ router.post(
 router.get('/usuarioLogueado', auth, usuarioController.usuarioLogueado);
 router.put('/usuarioLogueado', auth, usuarioController.actualizarUsuarioLogueado);
 router.get('/', auth, usuarioController.obtenerUsuarios);
-router.put('/:userId', auth, usuarioController.actualizarUsuario);
 router.delete('/:userId', auth, usuarioController.eliminarUsuario);
 
 module.exports = router;
