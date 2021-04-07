@@ -24,6 +24,10 @@ const UsuarioSchema = mongoose.Schema({
     imagen: {
         type: String,
     },
+    rol:{
+        type: String,
+        default: 'cliente',
+    }
 });
 
-module.exports = mongoose.model('Usuario', UsuarioSchema);
+module.exports = mongoose.model('User', UsuarioSchema);

@@ -2,6 +2,8 @@ const bcryptjs = require('bcryptjs');
 const Usuario = require('../models/User');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongoose').Types;
+
 
 exports.crearUsuario = async (req, res) => {
     const errores = validationResult(req);
@@ -50,14 +52,6 @@ exports.obtenerUsuarios = (req, res) => {
     res.send(req.usuario);
 };
 
-exports.actualizarUsuario = async (req, res) => {
-    try {
-        const { params, body } = req;
-        res.send({ params, body });
-    } catch (error) {
-        console.log(error);
-    }
-};
 
 exports.actualizarUsuarioLogueado = async (req, res) => {
     try {
@@ -75,8 +69,30 @@ exports.actualizarUsuarioLogueado = async (req, res) => {
     }
 };
 
-exports.eliminarUsuario = (req, res) => {
-    console.log('funcion eliminar usuarios');
+exports.eliminarUsuario = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        if (!ObjectId.isValid(userId)) {
+            return res.status(400).send('Id no valido');
+        }
+
+        const user = await Usuario.findById(userId);
+
+        if (!user) {
+            return res.status(404).send('Usuario no encontrado');
+        }
+        
+        // CONDICIONAL PARA CHEQUEAR QUE SEA ADMIN!
+        // if (user.creador.equals(req.usuario.id)) {
+        //     return res.status(403).send('No tiene permisos para borrar el usuario');
+        // }
+
+        await user.remove();
+        res.send('Usuario eliminado');
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al eliminar usuario');
+    }
 };
 
 exports.usuarioLogueado = async (req, res) => {

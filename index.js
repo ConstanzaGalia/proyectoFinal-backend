@@ -5,6 +5,7 @@ require('dotenv').config();
 const cors = require('cors');
 const routeUsers = require('./routes/users');
 const routeAuth = require('./routes/auth');
+const routeProducts = require('./routes/products');
 
 //Aqui van las rutas
 
@@ -31,6 +32,7 @@ app.use(express.urlencoded());
 //importación de rutas
 app.use('/api/usuarios', routeUsers);
 app.use('/api/auth', routeAuth);
+app.use('/api/products', routeProducts);
 
 
 //puerto y arranque del servidor

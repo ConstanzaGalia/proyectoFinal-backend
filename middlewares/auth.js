@@ -1,34 +1,16 @@
-const bcryptjs = require('bcryptjs');
-const Usuario = require('../models/Usuario');
 const jwt = require('jsonwebtoken');
 
-exports.login = async (req, res) => {
+module.exports = function (req, res, next) {
+    const token = req.header('x-auth-token');
+    if (!token) {
+        return res.status(401).send({ msg: 'Fallo al autenticar' });
+    }
+
     try {
-        const { email, password } = req.body;
-        const usuarioEncontrado = await Usuario.findOne({ email });
-        if (!usuarioEncontrado) {
-            return res.status(400).json({ msg: 'Datos no validos.' });
-        }
-
-        const passCorrecta = await bcryptjs.compare(password, usuarioEncontrado.password);
-        if (!passCorrecta) {
-            return res.status(400).json({ msg: 'Datos no validos.' });
-        }
-
-        // Crear y firmar jwt
-        const payload = {
-            usuario: {
-                id: usuarioEncontrado.id,
-            },
-        };
-        jwt.sign(payload, process.env.SECRETA, { expiresIn: 360000 }, (error, token) => {
-            if (error) {
-                throw error;
-            }
-            res.send(token);
-        });
+        const cifrado = jwt.verify(token, process.env.SECRETA);
+        req.usuario = cifrado.usuario;
+        next();
     } catch (error) {
-        console.log(error);
-        res.status(400).send('Hubo un error al autenticar.');
+        return res.status(401).send({ msg: 'error al validar token' });
     }
 };
