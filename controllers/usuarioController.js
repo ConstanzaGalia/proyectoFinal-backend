@@ -8,6 +8,7 @@ const { ObjectId } = require('mongoose').Types;
 exports.crearUsuario = async (req, res) => {
     const errores = validationResult(req);
     if (!errores.isEmpty()) {
+        console.log(errores.array())
         return res.status(400).send({ msg: errores.array() });
     }
 
@@ -47,9 +48,9 @@ exports.crearUsuario = async (req, res) => {
     }
 };
 
-exports.obtenerUsuarios = (req, res) => {
-    console.log('funcion obtener usuarios');
-    res.send(req.usuario);
+exports.obtenerUsuarios = async (req, res) => {
+    const usuarios = await Usuario.find().select('-__v').populate('nombre', 'email');
+    res.send(usuarios)
 };
 
 
@@ -96,6 +97,6 @@ exports.eliminarUsuario = async (req, res) => {
 };
 
 exports.usuarioLogueado = async (req, res) => {
-    const usuarioEncontrado = await Usuario.findById(req.usuario.id).select('email nombre imagen');
+    const usuarioEncontrado = await Usuario.findById(req.usuario.id).select('email nombre imagen rol');
     res.send(usuarioEncontrado);
 };
