@@ -49,7 +49,7 @@ exports.crearUsuario = async (req, res) => {
 };
 
 exports.obtenerUsuarios = async (req, res) => {
-    const usuarios = await Usuario.find().select('-__v').populate('nombre', 'email');
+    const usuarios = await Usuario.find().select('-__v');
     res.send(usuarios)
 };
 
