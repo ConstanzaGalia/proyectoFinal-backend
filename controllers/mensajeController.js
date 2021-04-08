@@ -1,64 +1,67 @@
 const { ObjectId } = require('mongoose').Types;
-const Meme = require('../models/Meme');
+const Mensaje = require('../models/Mensaje');
 
 exports.crearMensaje = async (req, res) => {
     try {
-        const meme = new Meme({
+        const mensaje = new Mensaje({
             ...req.body,
             createdAt: Date.now(),
             creador: req.usuario.id,
         });
-        await meme.save();
-        res.send(meme);
+        await mensaje.save();
+        res.send(mensaje);
     } catch (error) {
         console.log(error);
-        res.status(500).send('Error al crear meme');
+        res.status(500).send('Error al enviar mensaje.');
     }
 };
 
 exports.obtenerMensajes = async (req, res) => {
-    const memes = await Meme.find().select('-__v').populate('creador', 'nombre -_id');
-    res.send(memes);
+    const mensajes = await Mensaje.find().select('-__v').populate('creador', 'nombre -_id');
+    res.send(mensajes);
 };
 
 exports.obtenerMensaje = async (req, res) => {
     try {
-        const { memeId } = req.params;
-        if (!ObjectId.isValid(memeId)) {
+        const { mensajeId } = req.params;
+        if (!ObjectId.isValid(mensajeId)) {
             return res.status(400).send('Id no valido');
         }
-        const meme = await Meme.findById(memeId);
-        if (!meme) {
-            return res.status(404).send('Meme no encontrado');
+        const mensaje = await Meme.findById(mensajeId);
+        if (!mensaje) {
+            return res.status(404).send('Mensaje no encontrado.');
         }
-        res.send(meme);
+        res.send(mensaje);
     } catch (error) {
         console.log(error);
-        res.status(500).send('Error al buscar el meme');
+        res.status(500).send('Error al buscar el mensaje.');
     }
 };
 
 exports.eliminarMensaje = async (req, res) => {
     try {
-        const { memeId } = req.params;
-        if (!ObjectId.isValid(memeId)) {
+        const { mensajeId } = req.params;
+        if (!ObjectId.isValid(mensajeId)) {
             return res.status(400).send('Id no valido');
         }
 
-        const meme = await Meme.findById(memeId);
+        const mensaje = await Meme.findById(mensajeId);
 
-        if (!meme) {
-            return res.status(404).send('Meme no encontrado');
+        if (!mensaje) {
+            return res.status(404).send('Mensaje no encontrado');
         }
 
-        if (meme.creador.equals(req.usuario.id)) {
-            return res.status(403).send('No tiene permisos para borrar el meme');
+        if (mensaje.creador.equals(req.usuario.id)) {
+            return res.status(403).send('No tiene permisos para borrar este mensaje');
         }
 
-        await meme.remove();
-        res.send('Meme eliminado');
+        await mensaje.remove();
+        res.send('Mensajemensaje eliminado');
     } catch (error) {
         console.log(error);
-        res.status(500).send('Error al eliminar meme');
+        res.status(500).send('Error al eliminar mensaje');
     }
 };
+
+//cambiar todo lo que diga meme por mensaje 
+//Ejecutar en postman con metodos get y post 
