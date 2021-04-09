@@ -56,3 +56,13 @@ exports.deleteProduct = async (req, res) => {
         res.status(500).send('Error al eliminar producto');
     }
 };
+
+exports.updateProduct = async (req, res) => {
+    try {
+        const { body } = req;
+        const productActualizado = await Product.findOneAndUpdate({ _id: body._id }, body, { new: true });
+        res.send(productActualizado);
+    } catch (error) {
+        console.log(error);
+    }
+}
