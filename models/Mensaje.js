@@ -27,4 +27,4 @@ const mensajeSchema = mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('Meme', memeSchema);
+module.exports = mongoose.model('Mensaje', mensajeSchema);
