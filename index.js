@@ -7,6 +7,7 @@ const routeUsers = require('./routes/users');
 const routeAuth = require('./routes/auth');
 const routeProducts = require('./routes/products');
 const morgan = require('morgan');
+const routeMensajes = require('./routes/mensajes');
 
 //Aqui van las rutas
 
@@ -35,6 +36,7 @@ app.use(express.urlencoded());
 app.use('/api/usuarios', routeUsers);
 app.use('/api/auth', routeAuth);
 app.use('/api/products', routeProducts);
+app.use('/api/mensajes', routeMensajes);
 
 
 //puerto y arranque del servidor
