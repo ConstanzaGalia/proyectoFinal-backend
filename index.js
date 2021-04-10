@@ -3,13 +3,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const cors = require('cors');
+const morgan = require('morgan');
+
+
+//Aqui van las rutas
 const routeUsers = require('./routes/users');
 const routeAuth = require('./routes/auth');
 const routeProducts = require('./routes/products');
-const morgan = require('morgan');
 const routeMensajes = require('./routes/mensajes');
 
-//Aqui van las rutas
 
 //Creando el servidor
 const app = express();

@@ -1,5 +1,6 @@
 const Mensaje = require('../models/Mensaje');
 const Usuario = require('../models/User');
+const { ObjectId } = require('mongoose').Types;
 
 exports.crearMensaje = async (req, res) => {
     try {
@@ -28,6 +29,24 @@ exports.obtenerMensajes = async (req, res) => {
 };
 
 
+exports.deleteMensaje = async (req, res) => {
+    try {
+        const { mensajeId } = req.params;
+        if (!ObjectId.isValid(mensajeId)) {
+            return res.status(400).send('Id no valido');
+        }
 
-//cambiar todo lo que diga meme por mensaje 
-//Ejecutar en postman con metodos get y post 
+        const mensaje = await Mensaje.findById(mensajeId);
+
+        if (mensaje) {
+            return res.status(404).send('Mensaje no encontrado');
+        }
+
+        await mensaje.remove();
+        res.send('Mensaje eliminado');
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al eliminar mensaje');
+    }
+};
+
