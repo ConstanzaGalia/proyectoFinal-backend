@@ -38,7 +38,7 @@ exports.deleteMensaje = async (req, res) => {
 
         const mensaje = await Mensaje.findById(mensajeId);
 
-        if (mensaje) {
+        if (!mensaje) {
             return res.status(404).send('Mensaje no encontrado');
         }
 
