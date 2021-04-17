@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const cors = require('cors');
 const morgan = require('morgan');
-
+const port = Process.env.PORT || 4000 ;
 
 //Aqui van las rutas
 const routeUsers = require('./routes/users');
@@ -42,6 +42,6 @@ app.use('/api/mensajes', routeMensajes);
 
 
 //puerto y arranque del servidor
-app.listen(4000, () => {
+app.listen(port, () => {
   console.log('Servidor Funcionando');
 });
