@@ -31,7 +31,7 @@ git clone https://github.com/ConstanzaGalia/proyectoFinal-backend
 
 && npm install
 
-&& npm run dev
+&& npm run start
 
 ```
 
